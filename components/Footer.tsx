@@ -7,9 +7,9 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-black text-white pt-24 pb-12 rounded-t-[3rem] mt-12">
       <div className="max-w-7xl mx-auto px-6">
-        
+
         <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-8">
-           <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <div className="bg-white text-black p-2 rounded-full">
               <Hammer size={24} />
             </div>
@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
               <li>PRP3+V82, Woodvale Grv</li>
               <li>Nairobi, Kenya</li>
               <li><a href="mailto:info@nyamshardware.com" className="hover:text-white transition-colors">info@nyamshardware.com</a></li>
-              <li><a href="tel:+254721430800" className="hover:text-white transition-colors">+254 721 430 800</a></li>
+              <li><a href="tel:+254791281264" className="hover:text-white transition-colors">+254 791 281 264</a></li>
             </ul>
           </div>
         </div>
