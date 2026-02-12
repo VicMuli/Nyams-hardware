@@ -1,0 +1,1 @@
+﻿components/WhatsAppButton.tsx(64,16): error TS17008: JSX element 'svg' has no corresponding closing tag.
