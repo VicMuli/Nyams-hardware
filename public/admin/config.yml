@@ -1,7 +1,6 @@
 backend:
   name: git-gateway
   branch: main
-local_backend: true
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
@@ -15,24 +14,28 @@ collections:
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Short Description", name: "description", widget: "string", required: false, hint: "Optional excerpt shown on the blog listing page."}
       - {label: "Featured Image", name: "thumbnail", widget: "image", required: false}
       - {label: "Body", name: "body", widget: "markdown"}
-      
+
   - name: "podcasts"
     label: "Podcasts"
     folder: "content/podcasts"
     create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
-      - {label: "Audio URL / File", name: "audio", widget: "file", required: false}
-      - {label: "Description", name: "body", widget: "markdown"}
-      
+      - {label: "Description", name: "description", widget: "string", hint: "Short summary shown below the episode title."}
+      - {label: "Audio File", name: "audioSrc", widget: "file", required: false, hint: "Upload an MP3 or paste a URL (e.g. /audio/episode.mp3)."}
+
   - name: "gallery"
     label: "Gallery"
     folder: "content/gallery"
     create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
       - {label: "Image", name: "image", widget: "image"}
       - {label: "Caption", name: "caption", widget: "string", required: false}

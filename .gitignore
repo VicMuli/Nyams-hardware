@@ -10,7 +10,13 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-*.local
+
+# Environment files – never commit secrets
+.env*.local
+.env.local
+
+# Next.js build output
+.next/
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +28,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build artefacts
+build.log
+build_errors.txt
+errors.txt

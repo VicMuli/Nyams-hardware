@@ -56,6 +56,12 @@
       "namedRegex": "^/blog(?:/)?$"
     },
     {
+      "page": "/gallery",
+      "regex": "^/gallery(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/gallery(?:/)?$"
+    },
+    {
       "page": "/podcasts",
       "regex": "^/podcasts(?:/)?$",
       "routeKeys": {},

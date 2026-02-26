@@ -3,6 +3,7 @@
   "/_not-found/page": "/_not-found",
   "/blog/[slug]/page": "/blog/[slug]",
   "/blog/page": "/blog",
+  "/gallery/page": "/gallery",
   "/page": "/",
   "/podcasts/page": "/podcasts"
 }

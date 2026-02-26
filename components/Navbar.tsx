@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Hammer, ShoppingCart, Menu, X, Trash2, Plus, Minus, MessageCircle } from 'lucide-react';
 import { useCart } from './CartProvider';
 
@@ -63,6 +64,9 @@ const Navbar: React.FC = () => {
           <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="hover:text-primary transition-colors">Home</a>
           <a href="#products" onClick={(e) => scrollToSection(e, 'products')} className="hover:text-primary transition-colors">Products</a>
           <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className="hover:text-primary transition-colors">Contact</a>
+          <Link href="/blog" className="hover:text-primary transition-colors">Blog</Link>
+          <Link href="/podcasts" className="hover:text-primary transition-colors">Podcasts</Link>
+          <Link href="/gallery" className="hover:text-primary transition-colors">Gallery</Link>
         </div>
 
         {/* Action Buttons (Visible on Mobile & Desktop) */}
@@ -101,6 +105,9 @@ const Navbar: React.FC = () => {
           <a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">Home</a>
           <a href="#products" onClick={(e) => scrollToSection(e, 'products')} className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">Products</a>
           <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')} className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">Contact</a>
+          <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">Blog</Link>
+          <Link href="/podcasts" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">Podcasts</Link>
+          <Link href="/gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-semibold text-secondary hover:text-primary transition-colors">Gallery</Link>
         </div>
       )}
 
