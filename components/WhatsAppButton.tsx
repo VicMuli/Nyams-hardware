@@ -1,10 +1,10 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
+import { useCart } from './CartProvider';
 
-interface WhatsAppButtonProps {
-  isCartOpen: boolean;
-}
-
-const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ isCartOpen }) => {
+const WhatsAppButton: React.FC = () => {
+  const { isCartOpen } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
 

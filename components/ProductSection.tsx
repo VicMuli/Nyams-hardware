@@ -1,13 +1,13 @@
+"use client";
+
 import React, { useState } from 'react';
 import { PRODUCTS } from '../constants';
 import { ShoppingCart, Plus, Minus, Check } from 'lucide-react';
 import { Product } from '../types';
+import { useCart } from './CartProvider';
 
-interface ProductSectionProps {
-  onAddToCart: (product: Product, quantity: number) => void;
-}
-
-const ProductSection: React.FC<ProductSectionProps> = ({ onAddToCart }) => {
+const ProductSection: React.FC = () => {
+  const { handleAddToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState<'Plumbing' | 'Electrical' | 'Paints'>('Plumbing');
 
   const filteredProducts = PRODUCTS.filter(p => p.category === activeCategory);
@@ -15,7 +15,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({ onAddToCart }) => {
   return (
     <section id="products" className="bg-accent/30 py-24">
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-lg">
@@ -27,28 +27,27 @@ const ProductSection: React.FC<ProductSectionProps> = ({ onAddToCart }) => {
 
           {/* Controls / Tabs */}
           <div className="flex items-center gap-4">
-             <div className="flex bg-white rounded-full p-1 border border-gray-200 shadow-sm">
-                {(['Plumbing', 'Electrical', 'Paints'] as const).map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                      activeCategory === cat 
-                        ? 'bg-secondary text-white shadow-md' 
-                        : 'text-gray-500 hover:text-secondary'
+            <div className="flex bg-white rounded-full p-1 border border-gray-200 shadow-sm">
+              {(['Plumbing', 'Electrical', 'Paints'] as const).map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === cat
+                    ? 'bg-secondary text-white shadow-md'
+                    : 'text-gray-500 hover:text-secondary'
                     }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-             </div>
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
@@ -57,12 +56,8 @@ const ProductSection: React.FC<ProductSectionProps> = ({ onAddToCart }) => {
   );
 };
 
-interface ProductCardProps {
-  product: Product;
-  onAddToCart: (product: Product, quantity: number) => void;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
+  const { handleAddToCart } = useCart();
   const [quantity, setQuantity] = useState<number | string>(1);
   const [isAdded, setIsAdded] = useState(false);
 
@@ -91,7 +86,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
 
   const handleAdd = () => {
     const finalQty = getQuantityNum();
-    onAddToCart(product, finalQty);
+    handleAddToCart(product, finalQty);
     setQuantity(1); // Reset after adding
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
@@ -103,63 +98,62 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
     <div className="bg-white p-4 rounded-[2rem] shadow-sm hover:shadow-xl transition-shadow duration-300 group flex flex-col h-[480px]">
       {/* Updated Image Container for better visibility of product shapes */}
       <div className="relative h-[240px] w-full rounded-[1.5rem] overflow-hidden bg-white border border-gray-100 mb-4 p-4 flex items-center justify-center">
-        <img 
-          src={product.image} 
-          alt={product.name} 
+        <img
+          src={product.image}
+          alt={product.name}
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute top-4 right-4 bg-gray-900/5 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-secondary border border-gray-200">
           {product.category}
         </div>
       </div>
-      
+
       <div className="flex flex-col flex-1 justify-between">
         <div>
           <h3 className="font-bold text-lg text-secondary line-clamp-2 mb-2">{product.name}</h3>
         </div>
-        
+
         <div className="mt-auto space-y-4">
           <div className="flex items-center justify-between">
-             <div className="flex flex-col">
-               <span className="text-xs text-gray-400 font-medium">Total Price</span>
-               <span className="text-xl font-bold text-secondary">
-                 Ksh {currentPrice.toLocaleString()}
-               </span>
-             </div>
-             
-             {/* Quantity Selector */}
-             <div className="flex items-center gap-1 bg-gray-50 rounded-full p-1 border border-gray-100">
-               <button 
-                 onClick={decrement} 
-                 className="w-8 h-8 rounded-full bg-white text-gray-600 flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm"
-               >
-                 <Minus size={14} />
-               </button>
-               <input 
-                 type="number"
-                 min="1"
-                 value={quantity}
-                 onChange={handleInputChange}
-                 onBlur={handleBlur}
-                 className="w-12 text-center bg-transparent outline-none font-bold text-sm text-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-               />
-               <button 
-                 onClick={increment} 
-                 className="w-8 h-8 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm"
-               >
-                 <Plus size={14} />
-               </button>
-             </div>
+            <div className="flex flex-col">
+              <span className="text-xs text-gray-400 font-medium">Total Price</span>
+              <span className="text-xl font-bold text-secondary">
+                Ksh {currentPrice.toLocaleString()}
+              </span>
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-1 bg-gray-50 rounded-full p-1 border border-gray-100">
+              <button
+                onClick={decrement}
+                className="w-8 h-8 rounded-full bg-white text-gray-600 flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm"
+              >
+                <Minus size={14} />
+              </button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                className="w-12 text-center bg-transparent outline-none font-bold text-sm text-black [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              />
+              <button
+                onClick={increment}
+                className="w-8 h-8 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-gray-100 transition-colors shadow-sm"
+              >
+                <Plus size={14} />
+              </button>
+            </div>
           </div>
 
-          <button 
+          <button
             onClick={handleAdd}
             disabled={isAdded}
-            className={`w-full py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-all transform active:scale-95 shadow-md ${
-              isAdded 
-              ? 'bg-green-600 text-white hover:bg-green-700 shadow-green-200' 
+            className={`w-full py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-all transform active:scale-95 shadow-md ${isAdded
+              ? 'bg-green-600 text-white hover:bg-green-700 shadow-green-200'
               : 'bg-[#A08666] text-white hover:bg-secondary shadow-[#A08666]/20'
-            }`}
+              }`}
           >
             {isAdded ? (
               <>

@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { Hammer, Instagram, Facebook, Twitter, Linkedin } from 'lucide-react';
 

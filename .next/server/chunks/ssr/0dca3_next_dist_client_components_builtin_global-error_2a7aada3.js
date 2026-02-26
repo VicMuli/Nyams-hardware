@@ -1,0 +1,3 @@
+module.exports=[85585,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(24073);a.n(d("[project]/Desktop/NyamsHD/Nyams-hardware/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},99507,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(24073);a.n(d("[project]/Desktop/NyamsHD/Nyams-hardware/node_modules/next/dist/client/components/builtin/global-error.js"))},20554,a=>{"use strict";a.i(85585);var b=a.i(99507);a.n(b)}];
+
+//# sourceMappingURL=0dca3_next_dist_client_components_builtin_global-error_2a7aada3.js.map

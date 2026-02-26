@@ -1,22 +1,11 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { Hammer, ShoppingCart, Menu, X, Trash2, Plus, Minus, MessageCircle } from 'lucide-react';
-import { CartItem } from '../types';
+import { useCart } from './CartProvider';
 
-interface NavbarProps {
-  cart: CartItem[];
-  isCartOpen: boolean;
-  setIsCartOpen: (isOpen: boolean) => void;
-  onUpdateQuantity: (id: string, delta: number) => void;
-  onRemoveFromCart: (id: string) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ 
-  cart, 
-  isCartOpen, 
-  setIsCartOpen, 
-  onUpdateQuantity, 
-  onRemoveFromCart 
-}) => {
+const Navbar: React.FC = () => {
+  const { cart, isCartOpen, setIsCartOpen, handleUpdateQuantity, handleRemoveFromCart } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -34,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const handleCheckout = () => {
     const phoneNumber = "254791281264";
     let message = "Hello Nyams Hardware, I would like to place an order.\n\nItems:\n";
-    
+
     cart.forEach(item => {
       const lineTotal = item.price * item.quantity;
       message += `- ${item.name} x ${item.quantity} - KES ${lineTotal.toLocaleString()}\n`;
@@ -58,7 +47,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <nav 
+      <nav
         className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-7xl transition-all duration-300 ease-in-out px-6 py-4 rounded-full flex items-center justify-between
           ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg border border-gray-100' : 'bg-white shadow-md'}`}
       >
@@ -78,7 +67,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
         {/* Action Buttons (Visible on Mobile & Desktop) */}
         <div className="flex items-center gap-3 md:gap-4">
-          <button 
+          <button
             onClick={() => setIsCartOpen(true)}
             className="relative p-2 hover:bg-gray-100 rounded-full transition-colors group"
           >
@@ -91,7 +80,7 @@ const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
             onClick={() => setIsMobileMenuOpen(true)}
           >
@@ -103,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-white p-6 flex flex-col items-center justify-center gap-8 md:hidden">
-          <button 
+          <button
             className="absolute top-6 right-6 p-2 text-secondary hover:bg-gray-100 rounded-full"
             onClick={() => setIsMobileMenuOpen(false)}
           >
@@ -119,7 +108,7 @@ const Navbar: React.FC<NavbarProps> = ({
       {isCartOpen && (
         <div className="fixed inset-0 z-[100] flex justify-end">
           {/* Backdrop */}
-          <div 
+          <div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
             onClick={() => setIsCartOpen(false)}
           />
@@ -129,7 +118,7 @@ const Navbar: React.FC<NavbarProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-100">
               <h2 className="text-lg md:text-xl font-bold text-secondary">Your Cart ({cartCount})</h2>
-              <button 
+              <button
                 onClick={() => setIsCartOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
@@ -143,7 +132,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 <div className="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
                   <ShoppingCart size={64} className="opacity-20" />
                   <p>Your cart is empty</p>
-                  <button 
+                  <button
                     onClick={() => setIsCartOpen(false)}
                     className="text-primary font-medium hover:underline"
                   >
@@ -162,25 +151,25 @@ const Navbar: React.FC<NavbarProps> = ({
                           <h3 className="font-semibold text-secondary text-sm line-clamp-2 leading-tight">{item.name}</h3>
                           <p className="text-[10px] md:text-xs text-gray-500 mt-1">{item.category}</p>
                         </div>
-                        <button 
-                          onClick={() => onRemoveFromCart(item.id)}
+                        <button
+                          onClick={() => handleRemoveFromCart(item.id)}
                           className="shrink-0 p-1 text-gray-400 hover:text-red-500 transition-colors"
                         >
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      
+
                       <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center gap-2 bg-gray-50 rounded-full px-2 py-1">
-                          <button 
-                            onClick={() => onUpdateQuantity(item.id, -1)}
+                          <button
+                            onClick={() => handleUpdateQuantity(item.id, -1)}
                             className="p-1 hover:bg-white rounded-full transition-colors"
                           >
                             <Minus size={12} className="text-gray-600" />
                           </button>
                           <span className="text-xs font-bold min-w-[1.5rem] text-center text-black">{item.quantity}</span>
-                          <button 
-                            onClick={() => onUpdateQuantity(item.id, 1)}
+                          <button
+                            onClick={() => handleUpdateQuantity(item.id, 1)}
                             className="p-1 hover:bg-white rounded-full transition-colors"
                           >
                             <Plus size={12} className="text-gray-600" />
@@ -214,7 +203,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   </div>
                 </div>
 
-                <button 
+                <button
                   onClick={handleCheckout}
                   className="w-full bg-[#25D366] hover:bg-[#1da851] text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-green-200"
                 >
@@ -234,14 +223,14 @@ const Navbar: React.FC<NavbarProps> = ({
 };
 
 const ShieldCheckIcon = ({ size }: { size: number }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
     strokeLinejoin="round"
   >
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
