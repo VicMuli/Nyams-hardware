@@ -54,6 +54,12 @@
       "regex": "^/blog(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/blog(?:/)?$"
+    },
+    {
+      "page": "/podcasts",
+      "regex": "^/podcasts(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/podcasts(?:/)?$"
     }
   ],
   "dataRoutes": [],
